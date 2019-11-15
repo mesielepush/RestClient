@@ -10,7 +10,12 @@ class Bing
 	def print_links(response)
 		links = response.body.split('<h2><a href="').drop(1)
 		links.map! { |link| link.split('" ')[0] }
-		puts links
+		
+		if response.code == 200
+			puts links
+		else
+      puts 'Nothing to show!'
+		end
 	end
 
 	def search
@@ -21,6 +26,8 @@ class Bing
 			break if query == 'exit'
 
 			res = RestClient.get(URL + translate(query))
+		
+
 			puts '##########################'
 			puts ''
 			print_links(res)
